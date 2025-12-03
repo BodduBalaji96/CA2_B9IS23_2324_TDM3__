@@ -28,3 +28,40 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # Initialize database and migration tools
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+# Models
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), nullable=False, unique=True)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.String(50), nullable=True)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'role': self.role
+        }
+
+class Menu(db.Model):
+    __tablename__ = 'menu'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255), nullable=True)
+    price = db.Column(db.Float, nullable=False)
+    availability = db.Column(db.Boolean, nullable=False, default=True)
+    image_path = db.Column(db.String(255), nullable=True)  # Add this field
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'price': self.price,
+            'availability': self.availability,
+            'image_path': self.image_path  # Include image_path in the API response
+        }
