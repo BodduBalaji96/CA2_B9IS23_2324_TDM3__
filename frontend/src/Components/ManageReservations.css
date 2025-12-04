@@ -1,0 +1,63 @@
+/* ManageReservations.css */
+
+.manage-reservations {
+    padding: 20px;
+}
+
+.sorting-buttons {
+    margin-bottom: 20px;
+}
+
+.sorting-buttons button {
+    margin-right: 10px;
+}
+
+.reservation-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.reservation-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.reservation-item h3 {
+    margin-bottom: 5px;
+}
+
+.reservation-status {
+    margin-bottom: 10px;
+}
+
+.status-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.confirmed {
+    background-color: #4caf50;
+    color: white;
+}
+
+.canceled {
+    background-color: #f44336;
+    color: white;
+}
+
+.pending {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.reservation-buttons {
+    margin-top: 10px;
+}
+
+.small-button {
+    margin-right: 10px;
+}
