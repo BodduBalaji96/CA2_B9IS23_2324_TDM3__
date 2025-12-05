@@ -1,0 +1,30 @@
+.place-order {
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+
+.menu-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.menu-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    width: 500px;
+    text-align: left;
+}
+
+.quantity-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary {
+    margin-top: 20px;
+}
