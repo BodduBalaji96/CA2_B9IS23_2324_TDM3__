@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './ManageMenu.css';
+import './Menu.css';
+import UserDashboard from './UserDashboard';
 
-const Menu = () => {
+const UserMenu = () => {
     const [menuItems, setMenuItems] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortKey, setSortKey] = useState('');
     const [sortOrder, setSortOrder] = useState('asc');
-    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         fetchMenuItems();
@@ -15,11 +15,10 @@ const Menu = () => {
 
     const fetchMenuItems = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/menus');
+            const response = await axios.get('http://localhost:5000/api/menu');
             setMenuItems(response.data);
         } catch (error) {
-            console.error('Error fetching menu items:', error);
-            setErrorMessage('Failed to load menu items. Please try again later.');
+            console.error('Error fetching menu items', error);
         }
     };
 
@@ -52,48 +51,35 @@ const Menu = () => {
 
     return (
         <div className="menu">
+            <UserDashboard />
             <h1>Our Menu</h1>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
             <div className="menu-controls">
                 <input
                     type="text"
-                    placeholder="Search by name..."
+                    placeholder="Search..."
                     value={searchTerm}
                     onChange={handleSearch}
                     className="search-bar"
                 />
-                <button onClick={() => handleSort('name')}>
+                <button onClick={() => handleSort('name')} className="sort-button">
                     Sort by Name {sortKey === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}
                 </button>
-                <button onClick={() => handleSort('price')}>
+                <button onClick={() => handleSort('price')} className="sort-button">
                     Sort by Price {sortKey === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}
                 </button>
             </div>
             <div className="menu-items">
-                {sortedItems.length > 0 ? (
-                    sortedItems.map(item => (
-                        <div key={item.id} className="menu-item">
-                            
-                            {/*<img 
-                                src={process.env.PUBLIC_URL + item.image_path} 
-                                alt={item.name} 
-                                className="menu-item-image" 
-                            >/*}
-                            {/* Content on the right */}
-                            <div className="menu-item-content">
-                                <h3>{item.name}</h3>
-                                <p>Price: ${item.price.toFixed(2)}</p>
-                                <p>Description: {item.description}</p>
-                                <p>Availability: {item.availability ? 'Available' : 'Not Available'}</p>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <p>No menu items found.</p>
-                )}
+                {sortedItems.map(item => (
+                    <div key={item.id} className="menu-item">
+                        <h3>{item.name}</h3>
+                        <p>{item.description}</p>
+                        <p>${item.price.toFixed(2)}</p>
+                        <p>{item.availability ? 'Available' : 'Unavailable'}</p>
+                    </div>
+                ))}
             </div>
         </div>
     );
 };
 
-export default Menu;
+export default UserMenu;
