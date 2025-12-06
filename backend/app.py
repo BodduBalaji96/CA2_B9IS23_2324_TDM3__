@@ -97,3 +97,30 @@ class Reservation(db.Model):
             'time': self.time.strftime('%H:%M'),
             'people': self.people
         }
+# API Routes
+
+# Registration API
+@app.route('/api/register', methods=['POST'])
+def register():
+    try:
+        data = request.get_json()
+        if not data or 'username' not in data or 'email' not in data or 'password' not in data:
+            return jsonify({"error": "Invalid registration data"}), 400
+
+        # Check if username or email already exists
+        existing_user = User.query.filter((User.username == data['username']) | (User.email == data['email'])).first()
+        if existing_user:
+            return jsonify({"error": "Username or email already exists"}), 400
+
+        # Create a new user
+        new_user = User(
+            username=data['username'],
+            email=data['email'],
+            password=data['password'],  # Note: Hash the password in a real-world app!
+            role=data.get('role', 'User')
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({"message": "User registered successfully", "user": new_user.serialize()}), 201
+    except Exception as e:
+        return jsonify({"error": f"Failed to register user: {str(e)}"}), 500
