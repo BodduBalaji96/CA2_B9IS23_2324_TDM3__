@@ -65,3 +65,35 @@ class Menu(db.Model):
             'availability': self.availability,
             'image_path': self.image_path  # Include image_path in the API response
         }
+
+class Order(db.Model):
+    __tablename__ = 'orders'
+
+    id = db.Column(db.Integer, primary_key=True)
+    items = db.Column(db.JSON, nullable=False)  # Store menu items as JSON
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'items': self.items,
+            'timestamp': self.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        }
+
+class Reservation(db.Model):
+    __tablename__ = 'reservations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    time = db.Column(db.Time, nullable=False)
+    people = db.Column(db.Integer, nullable=False)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'date': self.date.strftime('%Y-%m-%d'),
+            'time': self.time.strftime('%H:%M'),
+            'people': self.people
+        }
